@@ -74,19 +74,12 @@ $(() => {
 
     // UPDATE USER
     $('table').on('click', '.update-button', function () {
-        console.log('Update USER');
         let rowEL = $(this).closest('tr');
         let id = rowEL.find('.id').text();
-
         let newFirstName = rowEL.find('.firstName').val();
         let newLastName = rowEL.find('.lastName').val();
         let newEmail = rowEL.find('.emailUser').val();
         let newPhone = rowEL.find('.phoneUser').val();
-        console.log("Id: " + id);
-        console.log(newFirstName);
-        console.log(newLastName);
-        console.log(newEmail);
-        console.log(newPhone);
         $.ajax({
             url: '/users/' + id,
             method: 'PUT',
@@ -113,7 +106,6 @@ $(() => {
             method: 'DELETE',
             contentType: 'application/json',
             success: function (res) {
-                console.log(res);
                 $('#getUsers').click();
             }
         });
