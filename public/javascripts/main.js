@@ -1,6 +1,4 @@
 $(() => {
-//  SOCKETS
-    let socket = io();
 
     // GET USERS
     $('#getUsers').on('click', () => {
