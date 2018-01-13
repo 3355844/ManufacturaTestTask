@@ -2,7 +2,6 @@ $(() => {
 
     // GET USERS
     $('#getUsers').on('click', () => {
-        console.log('get Users');
         $.ajax({
             url: '/users',
             method: 'GET',
@@ -11,7 +10,6 @@ $(() => {
                 let tbodyEL = $('tbody');
                 tbodyEL.html('');
                 res.users.forEach((user) => {
-                    console.log('function res');
                     tbodyEL.append('\<tr>\
                         <td class="id">' + user._id + '</td>\
                         <td><input type="text" class="firstName form-control"  value="' + user._firstName + '"></td>\
@@ -30,12 +28,10 @@ $(() => {
 
     // CREATE USER
     $('#create-form').on('submit', (event) => {
-        console.log('CREATE USER');
         let errorCount = 0;
         event.preventDefault();
         // Check fills
         $('#create-form').find('input').each((index, input) => {
-            console.log(input.value);
             if (input.value === '') {
                 errorCount++;
             }
@@ -98,7 +94,6 @@ $(() => {
 
 //     DELETE USER
     $('table').on('click', '.delete-button', function () {
-        console.log('DELETE USER ');
         let rowEL = $(this).closest('tr');
         let id = rowEL.find('.id').text();
         $.ajax({
