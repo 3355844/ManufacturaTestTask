@@ -10,19 +10,19 @@ $(() => {
             method: 'GET',
             contentType: 'application/json',
             success: (res) => {
-                var tbodyEL = $('tbody');
+                let tbodyEL = $('tbody');
                 tbodyEL.html('');
                 res.users.forEach((user) => {
                     console.log('function res');
                     tbodyEL.append('\<tr>\
                         <td class="id">' + user._id + '</td>\
-                        <td>' + user._firstName + '</td>\
-                        <td><input type="text" class="name form-control" value="' + user._lastName + '"/></td>\
-                        <td><input type="text" class="name form-control" value="' + user._emailUser + '"/></td>\
-                        <td><input type="text" class="name form-control" value="' + user._phoneUser + '"/></td>\
+                        <td><input type="text" class="firstName form-control"  value="' + user._firstName + '"></td>\
+                        <td><input type="text" class="lastName form-control" value="' + user._lastName + '"/></td>\
+                        <td><input type="text" class="emailUser form-control" value="' + user._emailUser + '"/></td>\
+                        <td><input type="text" class="phoneUser form-control" value="' + user._phoneUser + '"/></td>\
                         <td>\
-                        <button class="update-button btn btn-outline-success">UPDATE</button>\
-                        <button class="delete-button btn btn-outline-danger">DELETE</button>\
+                        <button class="update-button btn btn-success">UPDATE</button>\
+                        <button class="delete-button btn btn-danger mt-2">DELETE</button>\
                         </td>\
                         </tr>');
                 })
@@ -74,5 +74,50 @@ $(() => {
         }
     });
 
-});
+    // UPDATE USER
+    $('table').on('click', '.update-button', function () {
+        console.log('Update USER');
+        let rowEL = $(this).closest('tr');
+        let id = rowEL.find('.id').text();
 
+        let newFirstName = rowEL.find('.firstName').val();
+        let newLastName = rowEL.find('.lastName').val();
+        let newEmail = rowEL.find('.emailUser').val();
+        let newPhone = rowEL.find('.phoneUser').val();
+        console.log("Id: " + id);
+        console.log(newFirstName);
+        console.log(newLastName);
+        console.log(newEmail);
+        console.log(newPhone);
+        $.ajax({
+            url: '/users/' + id,
+            method: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                newFirstName: newFirstName,
+                newLastName: newLastName,
+                newEmail: newEmail,
+                newPhone: newPhone
+            }),
+            success: function (res) {
+                $('#getUsers').click();
+            }
+        });
+    });
+
+//     DELETE USER
+    $('table').on('click', '.delete-button', function () {
+        console.log('DELETE USER ');
+        let rowEL = $(this).closest('tr');
+        let id = rowEL.find('.id').text();
+        $.ajax({
+            url: '/users/' + id,
+            method: 'DELETE',
+            contentType: 'application/json',
+            success: function (res) {
+                console.log(res);
+                $('#getUsers').click();
+            }
+        });
+    });
+});

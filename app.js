@@ -19,6 +19,8 @@ app.use(function (req, res, next) {
     next();
 });
 
+
+// GET USERS
 app.get('/users', (req, res) => {
     console.log('GET Users method');
     let db = req.db;
@@ -28,6 +30,7 @@ app.get('/users', (req, res) => {
     })
 });
 
+// CREATE USER
 app.post('/users', (req, res) => {
     console.log('POST User method');
     let newUser = {
@@ -41,7 +44,37 @@ app.post('/users', (req, res) => {
     users.insert(newUser, (err, result) => {
         res.sendStatus(200);
     });
+});
+// UPDATE USER
+app.put('/users/:id', (req, res) => {
+    console.log('PUT User Method');
+    let id = req.params.id;
+    let newFirstName = req.body.newFirstName;
+    let newLastName = req.body.newLastName;
+    let newEmail = req.body.newEmail;
+    let newPhone = req.body.newPhone;
+    let db = req.db;
+    let users = db.get('users');
+    console.log(id);
+    console.log('First Name: ' + newFirstName + ' Last Name: ' + newLastName + ' email: ' + newEmail + ' phone: ' + newPhone);
+    //  UPDATE USER FILLS
+    users.findOneAndUpdate({_id: id}, {
+        $set: {
+            _firstName: newFirstName,
+            _lastName: newLastName,
+            _emailUser: newEmail,
+            _phoneUser: newPhone
+        }
+    });
+    res.sendStatus(200);
+});
 
+// DELETE USER
+app.delete('/users/:id', (req, res) => {
+    let id = req.params.id;
+    let users = req.db.get('users');
+    users.remove({_id: id});
+    res.sendStatus(200);
 });
 
 // Listen Server
